@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Products – Google Console Marketplace</title>
+  <meta name="description" content="Premium digital products: APIs, analytics tools, and development resources." />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="products.css">
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="img/header-removebg-preview.png" class="logo" alt="Logo" id="head">
+      </div>
+      <div class="user-info" id="userInfo" style="display: none;">
+        <span class="user-name" id="userName"></span>
+        <span class="developer-id" id="developerId"></span>
+      </div>
+     <a href="checkout.html">Checkout</a>
+    </div>
+    
+  </header>
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true" style="display:none;">Item added successfully</div>
+
+  <main class="section">
+    <div class="container">
+      <h1 class="section-title">Explore Products</h1>
+      <div class="grid">
+        <article class="card product">
+          <span class="badge">Popular</span>
+          <div class="product-icon">WP</div>
+          <h3>Wallet Protect Patch API</h3>
+          <p class="desc">Secure wallet interactions with request signing, validation, and rate limiting.</p>
+          <div class="tags">
+            <span class="tag">Security</span>
+            <span class="tag">API</span>
+            <span class="tag">Docs</span>
+          </div>
+          <div class="price-row">
+            <span class="price">$89 <em>one-time</em></span>
+            <a class="btn btn-secondary buy-btn" href="#">Buy</a>
+          </div>
+        </article>
+
+        <article class="card product">
+          <span class="badge">New</span>
+          <div class="product-icon">GM</div>
+          <h3>Google Map API</h3>
+          <p class="desc">Advanced Maps usage with optimized billing tips, caching patterns, and examples.</p>
+          <div class="tags">
+            <span class="tag">Maps</span>
+            <span class="tag">Location</span>
+            <span class="tag">Guides</span>
+          </div>
+          <div class="price-row">
+            <span class="price">$419 <em>annual</em></span>
+            <a class="btn btn-secondary buy-btn" href="#">Buy</a>
+          </div>
+        </article>
+
+        <article class="card product">
+          <div class="product-icon">GA</div>
+          <h3>Google Analytics Starter Kit</h3>
+          <p class="desc">GA4 setup templates, events taxonomy, and prebuilt dashboards.</p>
+          <div class="tags">
+            <span class="tag">Analytics</span>
+            <span class="tag">Templates</span>
+            <span class="tag">Dashboards</span>
+          </div>
+          <div class="price-row">
+            <span class="price">$129 <em>one-time</em></span>
+            <a class="btn btn-secondary buy-btn" href="#">Buy</a>
+          </div>
+        </article>
+
+        <article class="card product">
+          <div class="product-icon">GTM</div>
+          <h3>Google Tag Manager Recipes</h3>
+          <p class="desc">Importable GTM containers for common events and marketing pixels.</p>
+          <div class="tags">
+            <span class="tag">GTM</span>
+            <span class="tag">Marketing</span>
+            <span class="tag">Events</span>
+          </div>
+          <div class="price-row">
+            <span class="price">$59 <em>one-time</em></span>
+            <a class="btn btn-secondary buy-btn" href="#">Buy</a>
+          </div>
+        </article>
+
+        <article class="card product">
+          <div class="product-icon">GSC</div>
+          <h3>Search Console Insights</h3>
+          <p class="desc">SEO-ready reports, query analysis, and actionable checklists.</p>
+          <div class="tags">
+            <span class="tag">SEO</span>
+            <span class="tag">Reports</span>
+            <span class="tag">Insights</span>
+          </div>
+          <div class="price-row">
+            <span class="price">$99 <em>one-time</em></span>
+            <a class="btn btn-secondary buy-btn" href="#">Buy</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> DigiMart</p>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="checkout.html">Checkout</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="products.js"></script>
+</body>
+</html>
+
+

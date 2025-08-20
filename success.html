@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment Successful – Google Console</title>
+  <meta name="description" content="Order confirmation and download access for your premium digital products." />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f0f23;
+      color: #fff;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(15, 15, 35, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .logo i {
+      font-size: 2.2rem;
+      background: linear-gradient(45deg, #4285f4, #34a853, #fbbc04, #ea4335);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Success Page Styles */
+    .success-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 1rem;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .success-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .success-icon {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, #34a853 0%, #4285f4 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      box-shadow: 0 20px 60px rgba(52, 168, 83, 0.4);
+      animation: bounceIn 1s ease-out 0.3s both;
+      position: relative;
+    }
+
+    .success-icon::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: linear-gradient(135deg, #34a853, #4285f4, #fbbc04, #ea4335);
+      border-radius: 50%;
+      z-index: -1;
+      animation: rotate 3s linear infinite;
+    }
+
+    .success-icon i {
+      font-size: 3.5rem;
+      color: white;
+      z-index: 2;
+    }
+
+    .success-title {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 0%, #4285f4 50%, #34a853 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .success-subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .order-details {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .order-number {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .order-date {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+
+    .order-items {
+      margin-bottom: 2rem;
+    }
+
+    .order-item {
+      display: flex;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+    }
+
+    .item-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-right: 1rem;
+    }
+
+    .item-details {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .item-description {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .item-price {
+      font-weight: 700;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .order-total {
+      background: linear-gradient(135deg, rgba(66, 133, 244, 0.2) 0%, rgba(52, 168, 83, 0.2) 100%);
+      padding: 1.5rem;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid rgba(66, 133, 244, 0.3);
+    }
+
+    .total-label {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .total-amount {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #34a853;
+    }
+
+    .downloads-section {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.8s ease-out 0.6s both;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title i {
+      color: #4285f4;
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .download-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .download-item:hover {
+      border-color: #4285f4;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(66, 133, 244, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .download-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .download-title {
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .download-description {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 1rem;
+    }
+
+    .download-size {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .actions-section {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      animation: fadeInUp 0.8s ease-out 0.8s both;
+    }
+
+    .action-btn {
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(66, 133, 244, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-secondary:hover {
+      border-color: #4285f4;
+      color: #4285f4;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+      background: rgba(66, 133, 244, 0.1);
+    }
+
+    .support-info {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      animation: fadeInUp 0.8s ease-out 1s both;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .support-info h4 {
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .support-info p {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 1rem;
+    }
+
+    .support-contact {
+      color: #4285f4;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .support-contact:hover {
+      color: #34a853;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.3);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+      70% {
+        transform: scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Footer */
+    .footer {
+      background: #0a0a1a;
+      padding: 3rem 0 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h4 {
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .footer-section p,
+    .footer-section a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      line-height: 1.8;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: #4285f4;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      .success-title {
+        font-size: 2rem;
+      }
+      
+      .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      
+      .download-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .actions-section {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .action-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <i class="fab fa-google"></i>
+          <span>Google Console</span>
+        </a>
+        <nav class="nav-menu">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="products_new.html" class="nav-link">Products</a>
+          <a href="checkout.html" class="nav-link">Checkout</a>
+          <a href="success.html" class="nav-link active">Success</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="success-container">
+      <!-- Success Header -->
+      <div class="success-header">
+        <div class="success-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <h1 class="success-title">Payment Successful!</h1>
+        <p class="success-subtitle">Thank you for your purchase. Your order has been confirmed and is being processed.</p>
+      </div>
+
+      <!-- Order Details -->
+      <div class="order-details">
+        <div class="order-header">
+          <div>
+            <div class="order-number">Order DM20250820</div>
+            <div class="order-date">Placed on Aug 20, 2025</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="color: #48bb78; font-weight: 600;">
+              <i class="fas fa-check-circle"></i> Confirmed
+            </div>
+          </div>
+        </div>
+
+        <div class="order-items">
+          <div class="order-item">
+            <div class="item-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="item-details">
+              <div class="item-name">Wallet Protect Patch API</div>
+              <div class="item-description">Advanced security API with documentation</div>
+            </div>
+            <div class="item-price">₹7,743</div>
+          </div>
+          
+          <div class="order-item">
+            <div class="item-icon">
+              <i class="fas fa-map"></i>
+            </div>
+            <div class="item-details">
+              <div class="item-name">Google Map API</div>
+              <div class="item-description">Premium mapping service access</div>
+            </div>
+            <div class="item-price">₹36,452</div>
+          </div>
+        </div>
+
+        <div class="order-total">
+          <div class="total-label">Total Amount Paid</div>
+          <div class="total-amount">₹44,195</div>
+        </div>
+      </div>
+
+      <!-- Downloads Section -->
+      <div class="downloads-section">
+        <h2 class="section-title">
+          <i class="fas fa-download"></i>
+          Your Downloads
+        </h2>
+        
+        <div class="download-grid">
+          <a href="Download/Map-Api-b1682-firebase-adminsdk-fbsvc-6eda3e7f06.json" class="download-item">
+            <div class="download-icon">
+              <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="download-title">API Documentation</div>
+            <div class="download-description">Complete documentation for Wallet Protect Patch API</div>
+            <div class="download-size">Json • 2.4 MB</div>
+          </a>
+          
+          <a href="Download/Patch-b1682-firebase-adminsdk-fbsvc-a89a13c4b2.json" class="download-item">
+            <div class="download-icon">
+              <i class="fas fa-file-archive"></i>
+            </div>
+            <div class="download-title">Source Code Package</div>
+            <div class="download-description">Full source code with examples and utilities</div>
+            <div class="download-size">ZIP • 15.7 MB</div>
+          </a>
+          
+          <a href="Download/loginsystem-9e5b7-firebase-adminsdk-waia3-73c1be74e0.json" class="download-item">
+            <div class="download-icon">
+              <i class="fas fa-cogs"></i>
+            </div>
+            <div class="download-title">Automation Scripts</div>
+            <div class="download-description">Ready-to-use automation and deployment scripts</div>
+            <div class="download-size">ZIP • 3.2 MB</div>
+          </a>
+          
+          <a href="Download/plasma-kit-450910-q0-1fd03f4f5a9a.json" class="download-item">
+            <div class="download-icon">
+              <i class="fas fa-key"></i>
+            </div>
+            <div class="download-title">API Keys & Access</div>
+            <div class="download-description">Your personal API keys and access credentials</div>
+            <div class="download-size">TXT • 1.1 KB</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="actions-section">
+        <a href="products.html" class="action-btn btn-primary">
+          <i class="fas fa-shopping-bag"></i>
+          Continue Shopping
+        </a>
+        <a href="#" class="action-btn btn-secondary" id="downloadInvoice">
+          <i class="fas fa-receipt"></i>
+          Download Invoice
+        </a>
+      </div>
+
+      <!-- Support Information -->
+      <div class="support-info">
+        <h4>Need Help?</h4>
+        <p>If you have any questions about your purchase or need technical support, we're here to help.</p>
+        <a href="mailto:support@googleconsole.com" class="support-contact">
+          <i class="fas fa-envelope"></i> support@googleconsole.com
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Google Console</h4>
+          <p>Secure digital marketplace for premium products.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Products</h4>
+          <a href="products.html">Analytics Tools</a><br>
+          <a href="products.html">SEO Suite</a><br>
+          <a href="products.html">Security Tools</a>
+        </div>
+        <div class="footer-section">
+          <h4>Support</h4>
+          <a href="#help">Help Center</a><br>
+          <a href="#docs">Documentation</a><br>
+          <a href="#contact">Contact Us</a>
+        </div>
+        <div class="footer-section">
+          <h4>Legal</h4>
+          <a href="#privacy">Privacy Policy</a><br>
+          <a href="#terms">Terms of Service</a><br>
+          <a href="#security">Security</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> Google Console. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="success.js"></script>
+</body>
+</html>
+
+

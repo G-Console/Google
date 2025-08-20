@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Dashboard - Rohit Kumar</title>
+  <meta name="description" content="User profile and dashboard for Google Console" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="user.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <i class="fab fa-google"></i>
+          <span>Google Console</span>
+        </div>
+        <div class="user-info">
+          <span class="welcome-text">Welcome, Rohit Kumar</span>
+          <span class="developer-id">ID: GDV76235A98P6I</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="profile-section">
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="profile-info">
+            <h1 class="profile-name">Rohit Kumar</h1>
+            <p class="profile-designation">Software Engineer</p>
+            <p class="member-since">Member Since: 16/06/2017</p>
+          </div>
+        </div>
+
+        <div class="profile-details">
+          <div class="details-grid">
+            <div class="detail-card">
+              <div class="detail-icon">
+                <i class="fas fa-id-badge"></i>
+              </div>
+              <div class="detail-content">
+                <h3>Developer ID</h3>
+                <p>GDV76235A98P6I</p>
+              </div>
+            </div>
+
+            <div class="detail-card">
+              <div class="detail-icon">
+                <i class="fas fa-briefcase"></i>
+              </div>
+              <div class="detail-content">
+                <h3>Designation</h3>
+                <p>Software Engineer</p>
+              </div>
+            </div>
+
+            <div class="detail-card">
+              <div class="detail-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="detail-content">
+                <h3>Mobile Number</h3>
+                <p>9305996556</p>
+              </div>
+            </div>
+
+            <div class="detail-card">
+              <div class="detail-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="detail-content">
+                <h3>Email</h3>
+                <p>rk28198@gmail.com</p>
+              </div>
+            </div>
+
+            <div class="detail-card">
+              <div class="detail-icon">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <div class="detail-content">
+                <h3>Member Since</h3>
+                <p>16/06/2017</p>
+              </div>
+            </div>
+
+            <div class="detail-card">
+              <div class="detail-icon">
+                <i class="fas fa-credit-card"></i>
+              </div>
+              <div class="detail-content">
+                <h3>UPI ID</h3>
+                <p>93059965556@ybl</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-section">
+          <div class="stats-overview">
+            <div class="stat-item">
+              <div class="stat-number">7</div>
+              <div class="stat-label">Years Active</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">15</div>
+              <div class="stat-label">Products Used</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">98%</div>
+              <div class="stat-label">Satisfaction</div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button class="btn-primary" onclick="buyProducts()">
+              <i class="fas fa-shopping-cart"></i>
+              Buy Products
+            </button>
+            <button class="btn-secondary" onclick="editProfile()">
+              <i class="fas fa-edit"></i>
+              Edit Profile
+            </button>
+          </div>
+        </div>
+
+        <div class="recent-activity">
+          <h2>Recent Activity</h2>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-download"></i>
+              </div>
+              <div class="activity-content">
+                <h4>API Access Granted</h4>
+                <p>Wallet Protect Patch API - Today, 2:30 PM</p>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="activity-content">
+                <h4>Analytics Report Generated</h4>
+                <p>Monthly performance report - Yesterday, 4:15 PM</p>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div class="activity-content">
+                <h4>Security Scan Completed</h4>
+                <p>All systems secure - 2 days ago</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="user.js"></script>
+</body>
+</html>

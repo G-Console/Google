@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Google Console – Advanced Analytics & Performance Insights</title>
+  <meta name="description" content="Unlock powerful analytics, performance monitoring, and optimization tools for your digital presence." />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f0f23;
+      color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(15, 15, 35, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1rem 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .header.scrolled {
+      background: rgba(15, 15, 35, 0.98);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .logo i {
+      font-size: 2.2rem;
+      background: linear-gradient(45deg, #4285f4, #34a853, #fbbc04, #ea4335);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: colorShift 3s ease-in-out infinite;
+    }
+
+    @keyframes colorShift {
+      0%, 100% { filter: hue-rotate(0deg); }
+      50% { filter: hue-rotate(90deg); }
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(66, 133, 244, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #2d2d5a 100%);
+      position: relative;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+      animation: gridMove 20s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(10px, 10px); }
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-text {
+      animation: fadeInLeft 1s ease-out;
+    }
+
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #fff 0%, #4285f4 50%, #34a853 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      color: white;
+      padding: 1.2rem 2.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(66, 133, 244, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(66, 133, 244, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      padding: 1.2rem 2.5rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #4285f4;
+      display: block;
+    }
+
+    .stat-label {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero-visual {
+      position: relative;
+      animation: fadeInRight 1s ease-out;
+    }
+
+    .dashboard-preview {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard-preview::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      border-radius: 20px 20px 0 0;
+    }
+
+    .preview-content {
+      margin-top: 2rem;
+    }
+
+    .preview-chart {
+      height: 200px;
+      background: linear-gradient(135deg, rgba(66, 133, 244, 0.1) 0%, rgba(52, 168, 83, 0.1) 100%);
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-chart::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60%;
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      opacity: 0.3;
+      clip-path: polygon(0 100%, 20% 80%, 40% 90%, 60% 70%, 80% 85%, 100% 60%, 100% 100%);
+      animation: chartGrow 2s ease-out;
+    }
+
+    @keyframes chartGrow {
+      0% { height: 0%; }
+      100% { height: 60%; }
+    }
+
+    .preview-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .metric-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #4285f4;
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 8rem 0;
+      background: linear-gradient(135deg, #1a1a3a 0%, #2d2d5a 100%);
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 0%, #4285f4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 3rem;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      border-color: rgba(66, 133, 244, 0.3);
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      font-size: 2rem;
+      color: white;
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .feature-description {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .feature-link {
+      color: #4285f4;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .feature-link:hover {
+      color: #34a853;
+      transform: translateX(5px);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 8rem 0;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 100%);
+      text-align: center;
+      position: relative;
+    }
+
+    .cta-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .cta-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #fff 0%, #4285f4 50%, #34a853 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cta-description {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 3rem;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    .footer {
+      background: #0a0a1a;
+      padding: 3rem 0 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h4 {
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .footer-section p,
+    .footer-section a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      line-height: 1.8;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: #4285f4;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Animations */
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .feature-card {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .feature-card:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .feature-card:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #1a1a3a 0%, #2d2d5a 100%);
+      margin: 10% auto;
+      padding: 3rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .close {
+      color: rgba(255, 255, 255, 0.7);
+      float: right;
+      font-size: 2rem;
+      font-weight: bold;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .close:hover {
+      color: #fff;
+    }
+
+    .modal-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+      background: linear-gradient(135deg, #fff 0%, #4285f4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .option-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .option-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .option-btn:hover {
+      background: rgba(66, 133, 244, 0.1);
+      border-color: #4285f4;
+      transform: translateY(-2px);
+    }
+
+    .developer-id-form {
+      display: none;
+      margin-top: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #4285f4;
+      box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+    }
+
+    .form-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .continue-btn {
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .continue-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(66, 133, 244, 0.3);
+    }
+
+    .error-message {
+      color: #ea4335;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .cta-title {
+        font-size: 2rem;
+      }
+
+      .nav-menu {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="#" class="logo">
+          <i class="fab fa-google"></i>
+          <span>Google Console</span>
+        </a>
+        <nav class="nav-menu">
+          <a href="#features" class="nav-link">Features</a>
+          <a href="products_new.html" class="nav-link">Products</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#" class="cta-button" onclick="openModal()">Get Started</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1 class="hero-title">Unlock Your Digital Potential</h1>
+            <p class="hero-subtitle">
+              Advanced analytics, performance monitoring, and optimization tools 
+              to supercharge your digital presence and drive measurable results.
+            </p>
+            <div class="hero-buttons">
+              <a href="#" class="btn-primary" onclick="openModal()">
+                <i class="fas fa-rocket"></i>
+                Start Free Trial
+              </a>
+              <a href="products.html" class="btn-secondary">
+                <i class="fas fa-play"></i>
+                View Products
+              </a>
+            </div>
+            <div class="hero-stats">
+              <div class="stat-item">
+                <span class="stat-number">99.9%</span>
+                <span class="stat-label">Uptime</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">50K+</span>
+                <span class="stat-label">Users</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Support</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="dashboard-preview">
+              <div class="preview-content">
+                <div class="preview-chart"></div>
+                <div class="preview-metrics">
+                  <div class="metric-card">
+                    <div class="metric-value">2.4K</div>
+                    <div class="metric-label">Sessions</div>
+                  </div>
+                  <div class="metric-card">
+                    <div class="metric-value">89%</div>
+                    <div class="metric-label">Performance</div>
+                  </div>
+                  <div class="metric-card">
+                    <div class="metric-value">156</div>
+                    <div class="metric-label">Conversions</div>
+                  </div>
+                  <div class="metric-card">
+                    <div class="metric-value">4.8</div>
+                    <div class="metric-label">Rating</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Powerful Features</h2>
+          <p class="section-subtitle">
+            Everything you need to monitor, analyze, and optimize your digital performance
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="feature-title">Performance Analytics</h3>
+            <p class="feature-description">
+              Real-time performance monitoring with detailed insights into user behavior, 
+              page load times, and conversion metrics.
+            </p>
+            <a href="products.html" class="feature-link">
+              Learn More <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <h3 class="feature-title">SEO Optimization</h3>
+            <p class="feature-description">
+              Advanced SEO tools to improve your search rankings, monitor keywords, 
+              and track your site's visibility across search engines.
+            </p>
+            <a href="products.html" class="feature-link">
+              Learn More <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 class="feature-title">Security Monitoring</h3>
+            <p class="feature-description">
+              Comprehensive security scanning and monitoring to protect your site 
+              from threats and ensure data integrity.
+            </p>
+            <a href="products.html" class="feature-link">
+              Learn More <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2 class="cta-title">Ready to Get Started?</h2>
+          <p class="cta-description">
+            Join thousands of businesses already using Google Console to optimize 
+            their digital presence and drive growth.
+          </p>
+          <a href="#" class="btn-primary" onclick="openModal()">
+            <i class="fas fa-rocket"></i>
+            Start Your Journey
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Google Console</h4>
+          <p>Advanced analytics and optimization tools for the modern web.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Products</h4>
+          <a href="products.html">Analytics Tools</a><br>
+          <a href="products.html">SEO Suite</a><br>
+          <a href="products.html">Security Tools</a>
+        </div>
+        <div class="footer-section">
+          <h4>Support</h4>
+          <a href="#help">Help Center</a><br>
+          <a href="#docs">Documentation</a><br>
+          <a href="#contact">Contact Us</a>
+        </div>
+        <div class="footer-section">
+          <h4>Company</h4>
+          <a href="#about">About Us</a><br>
+          <a href="#privacy">Privacy Policy</a><br>
+          <a href="#terms">Terms of Service</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> Google Console. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div id="getStartedModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 class="modal-title">Choose Your Path</h2>
+      
+      <div class="option-buttons" id="optionButtons">
+        <button class="option-btn" onclick="showDeveloperForm()">
+          <i class="fas fa-id-card" style="margin-right: 10px;"></i>
+          You Have Developer ID
+        </button>
+        <button class="option-btn" onclick="startNew()">
+          <i class="fas fa-plus-circle" style="margin-right: 10px;"></i>
+          Start New
+        </button>
+      </div>
+
+      <div class="developer-id-form" id="developerForm">
+        <div class="form-group">
+          <label class="form-label" for="developerId">Enter Your Developer ID</label>
+          <input type="text" id="developerId" class="form-input" placeholder="Enter your Developer ID" maxlength="16">
+          <div class="error-message" id="errorMessage">Invalid Developer ID. Please try again.</div>
+        </div>
+        <button class="continue-btn" onclick="validateDeveloperId()">Continue</button>
+        <button class="option-btn" onclick="goBack()" style="margin-top: 1rem; background: transparent; border: 1px solid rgba(255,255,255,0.3);">
+          <i class="fas fa-arrow-left" style="margin-right: 10px;"></i>
+          Back
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Header scroll effect
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('header');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe feature cards
+    document.querySelectorAll('.feature-card').forEach(card => {
+      observer.observe(card);
+    });
+
+    // Modal functionality
+    function openModal() {
+      document.getElementById('getStartedModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('getStartedModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+      resetModal();
+    }
+
+    function resetModal() {
+      document.getElementById('optionButtons').style.display = 'flex';
+      document.getElementById('developerForm').style.display = 'none';
+      document.getElementById('developerId').value = '';
+      document.getElementById('errorMessage').style.display = 'none';
+    }
+
+    function showDeveloperForm() {
+      document.getElementById('optionButtons').style.display = 'none';
+      document.getElementById('developerForm').style.display = 'block';
+    }
+
+    function goBack() {
+      document.getElementById('optionButtons').style.display = 'flex';
+      document.getElementById('developerForm').style.display = 'none';
+      document.getElementById('developerId').value = '';
+      document.getElementById('errorMessage').style.display = 'none';
+    }
+
+    function startNew() {
+      // Redirect to start.html for new users
+      window.location.href = 'start.html';
+    }
+
+    function validateDeveloperId() {
+      const developerId = document.getElementById('developerId').value.trim();
+      const validId = 'GDV76235A98P6I';
+      const errorMessage = document.getElementById('errorMessage');
+
+      if (developerId === validId) {
+        // Redirect to user.html if ID matches
+        window.location.href = 'user.html';
+      } else {
+        // Show error message
+        errorMessage.style.display = 'block';
+        document.getElementById('developerId').style.borderColor = '#ea4335';
+        
+        // Reset border color after 3 seconds
+        setTimeout(() => {
+          document.getElementById('developerId').style.borderColor = 'rgba(255, 255, 255, 0.2)';
+        }, 3000);
+      }
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+      const modal = document.getElementById('getStartedModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+
+    // Handle Enter key in Developer ID input
+    document.addEventListener('DOMContentLoaded', function() {
+      const developerIdInput = document.getElementById('developerId');
+      if (developerIdInput) {
+        developerIdInput.addEventListener('keypress', function(event) {
+          if (event.key === 'Enter') {
+            validateDeveloperId();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
+
+

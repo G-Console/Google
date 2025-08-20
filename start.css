@@ -1,0 +1,118 @@
+/* Start page specific styles */
+.form-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+  max-width: 880px;
+  margin: 12px auto 0;
+}
+.section-title{
+    text-align: center;
+}
+.muted{
+    text-align: center;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+
+.field { grid-column: span 12; display: flex; flex-direction: column; }
+.field-full { grid-column: span 12; }
+
+.field label {
+  font-size: 14px;
+  color: #0f172a;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #f8fafc;
+  color: #0b0f17;
+  font-size: 15px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: #cbd5e1;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #1a73e8;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(26,115,232,0.12);
+}
+
+.field input::placeholder,
+.field textarea::placeholder { color: #94a3b8; }
+
+/* Select arrow */
+.field select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23677" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px;
+  padding-right: 42px;
+}
+
+.field textarea { min-height: 96px; resize: vertical; }
+
+.actions { margin-top: 16px; display: flex; justify-content: center; }
+
+/* Fancy primary button inside the form */
+.form-card .btn.btn-primary {
+  background: linear-gradient(90deg, #1a73e8, #1557b0);
+  color: #ffffff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  box-shadow: 0 10px 24px rgba(26,115,232,0.25);
+  transition: transform 0.08s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+.form-card .btn.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(26,115,232,0.35);
+  filter: brightness(1.02);
+}
+.form-card .btn.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(26,115,232,0.25);
+}
+
+/* Validation states */
+.field input:invalid,
+.field select:invalid,
+.field textarea:invalid {
+  border-color: #ef4444;
+}
+.field input:invalid:focus,
+.field select:invalid:focus,
+.field textarea:invalid:focus {
+  box-shadow: 0 0 0 4px rgba(239,68,68,0.15);
+}
+
+@media (min-width: 720px) {
+  .field { grid-column: span 6; }
+  .field-full { grid-column: span 12; }
+}
+
+

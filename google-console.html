@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DigiMart – Digital Products Store</title>
+  <meta name="description" content="APIs, source code, aur digital tools ke liye simple store." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="img/logo.png" class="logo">
+        <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" class="logo">
+        <a class="google-console" href="index.html">Console</a>
+      </div>
+      <nav class="nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="products.html">Products</a>
+        <a href="checkout.html" class="cta">Checkout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <h1>Digital Products jo aap turant use kar sakte ho</h1>
+        <p class="subtitle">Wallet Protect Patch API, premium source code bundles, automation scripts aur bahut kuchh – sab ek jagah.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="products.html">Explore Products</a>
+          <a class="btn btn-ghost" href="checkout.html">Go to Checkout</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Wallet Protect Patch API</h3>
+            <p>Security-focused API jo wallet interactions ko safe banata hai.</p>
+            <div class="price-row">
+              <span class="price">₹1,499</span>
+              <a class="btn btn-secondary" href="checkout.html">Buy Now</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Premium Source Code Bundle</h3>
+            <p>Production-ready templates: auth, payments, dashboard UI aur docs.</p>
+            <div class="price-row">
+              <span class="price">₹2,999</span>
+              <a class="btn btn-secondary" href="checkout.html">Buy Now</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Automation Scripts Pack</h3>
+            <p>Daily tasks ke liye curated scripts – web scraping, data clean-up, backups.</p>
+            <div class="price-row">
+              <span class="price">₹999</span>
+              <a class="btn btn-secondary" href="checkout.html">Buy Now</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container features">
+        <div class="feature">
+          <h3>Instant Access</h3>
+          <p>Payment ke baad turant download/credentials details mil jati hain (demo me placeholder).</p>
+        </div>
+        <div class="feature">
+          <h3>College-friendly</h3>
+          <p>Project submission ke liye clean, responsive aur simple codebase.</p>
+        </div>
+        <div class="feature">
+          <h3>No Backend Required</h3>
+          <p>Ye demo static HTML/CSS par based hai, isliye hosting easy.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> DigiMart · All rights reserved</p>
+      <nav class="footer-nav">
+        <a href="products.html">Products</a>
+        <a href="checkout.html">Checkout</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
+

